@@ -1,1 +1,0 @@
-convert_currency("USD", "UAH", 22)

@@ -1,10 +1,16 @@
-import requests
 import json
+from decimal import Decimal
+from typing import Tuple
+import requests
+
 
 EXTERNAL_API_KEY = "8EZqkBwoYSJKzmUaA3lq53BvWNkWXTu9AhKNWaoj"
 
 
-def convert_currency(from_curr: str, to_curr: str, amount: float) -> float:
+def convert_currency(from_curr: str,
+                     to_curr: str,
+                     amount: Decimal) -> Tuple[Decimal]:
+    """Converts given currency to choosen"""
     r = requests.get("https://api.currencyapi.com/v3/latest"
                      f"?apikey={EXTERNAL_API_KEY}"
                      f"&base_currency={from_curr}"
@@ -12,8 +18,15 @@ def convert_currency(from_curr: str, to_curr: str, amount: float) -> float:
     if r.status_code != 200:
         return -1
     currency_data = json.loads(r.text).get("data")
-    exchange_rate = list(currency_data.values())[0]["value"]
-    return amount * exchange_rate
+    exchange_rate = Decimal(list(currency_data.values())[0]["value"])
+    return amount * exchange_rate, exchange_rate
+
+
+def check_query_params(from_curr: str, to_curr: str, amount: str) -> bool:
+    """Check if required GET method params are present"""
+    return all([from_curr, to_curr, amount])
+
 
 
 # print(convert_currency("USD", "UAH", 22))
+
