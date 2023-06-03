@@ -15,8 +15,7 @@ def convert_currency(from_curr: str,
                      f"?apikey={EXTERNAL_API_KEY}"
                      f"&base_currency={from_curr}"
                      f"&currencies={to_curr}")
-    if r.status_code != 200:
-        return -1
+    r.raise_for_status()
     currency_data = json.loads(r.text).get("data")
     exchange_rate = Decimal(list(currency_data.values())[0]["value"])
     return amount * exchange_rate, exchange_rate
@@ -25,8 +24,3 @@ def convert_currency(from_curr: str,
 def check_query_params(from_curr: str, to_curr: str, amount: str) -> bool:
     """Check if required GET method params are present"""
     return all([from_curr, to_curr, amount])
-
-
-
-# print(convert_currency("USD", "UAH", 22))
-

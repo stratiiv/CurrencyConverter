@@ -14,7 +14,8 @@ class ConversionSerializer(serializers.Serializer):
         """Check if currency is in allowed list"""
         check_list = data["from_currency"], data["to_currency"]
         if not all(currency in ALLOWED_CURRENCIES for currency in check_list):
-            raise serializers.ValidationError(f"Please choose currency from {', '.join(ALLOWED_CURRENCIES)}")
+            raise serializers.ValidationError("Please choose currency from "
+                                            f"{', '.join(ALLOWED_CURRENCIES)}")
         return data
 
     def validate_amount(self, value):
@@ -22,4 +23,3 @@ class ConversionSerializer(serializers.Serializer):
         if value <= 0:
             raise serializers.ValidationError("Amount must be positive number")
         return value
-            

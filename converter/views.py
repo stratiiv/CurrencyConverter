@@ -2,8 +2,9 @@ from rest_framework.views import APIView
 from rest_framework import serializers
 from rest_framework import status
 from rest_framework.response import Response
+from requests.exceptions import RequestException
 from .serializers import ConversionSerializer
-from .services import check_query_params, convert_currency 
+from .services import check_query_params, convert_currency
 
 
 class CurrencyConversionView(APIView):
@@ -13,7 +14,7 @@ class CurrencyConversionView(APIView):
         amount = request.query_params.get("amount")
         if not check_query_params(from_currency, to_currency, amount):
             raise serializers.ValidationError("Required parameters "
-                                               "are missing.")
+                                              "are missing.")
         data = {
             'from_currency': from_currency,
             'to_currency': to_currency,
@@ -26,10 +27,13 @@ class CurrencyConversionView(APIView):
         from_currency = serializer.validated_data['from_currency']
         to_currency = serializer.validated_data['to_currency']
         amount = serializer.validated_data['amount']
-        converted_amount, exchange_rate = convert_currency(from_currency,
-                                                           to_currency,
-                                                           amount)
+        try:
+            converted_amount, exchange_rate = convert_currency(from_currency,
+                                                               to_currency,
+                                                               amount)
+        except RequestException:
+            return Response({"error": "External API is currently unavailable"},
+                            status=status.HTTP_503_SERVICE_UNAVAILABLE)
         return Response({"to_currency": to_currency,
                          "value": converted_amount,
                          "exchange_rate": exchange_rate})
-        
