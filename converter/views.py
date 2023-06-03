@@ -34,6 +34,6 @@ class CurrencyConversionView(APIView):
         except RequestException:
             return Response({"error": "External API is currently unavailable"},
                             status=status.HTTP_503_SERVICE_UNAVAILABLE)
-        return Response({"to_currency": to_currency,
+        return Response({"currency": to_currency,
                          "value": converted_amount,
                          "exchange_rate": exchange_rate})
