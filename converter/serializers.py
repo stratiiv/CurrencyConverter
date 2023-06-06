@@ -8,7 +8,7 @@ class ConversionSerializer(serializers.Serializer):
     """Serializes conversion request"""
     from_currency = serializers.CharField(max_length=3)
     to_currency = serializers.CharField(max_length=3)
-    amount = serializers.DecimalField(max_digits=20, decimal_places=10)
+    amount = serializers.DecimalField(max_digits=20, decimal_places=6)
 
     def validate(self, data):
         """Check if currency is in allowed list"""
