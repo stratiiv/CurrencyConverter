@@ -1,16 +1,17 @@
+import os
 from decimal import Decimal, ROUND_DOWN
 from typing import Tuple
 import requests
 
 
 EXTERNAl_API_URL = "https://api.currencyapi.com/v3/latest"
-EXTERNAL_API_KEY = "8EZqkBwoYSJKzmUaA3lq53BvWNkWXTu9AhKNWaoj"
+EXTERNAL_API_KEY = os.environ.get("OPENWEATHER_KEY")
 
 
 def get_exchange_rate(from_curr: str, to_curr: str) -> Decimal:
     """Gets exchange rate from external api"""
     params = {
-        "apikey": EXTERNAL_API_KEY, 
+        "apikey": EXTERNAL_API_KEY,
         "base_currency": from_curr,
         "currencies": to_curr
     }
