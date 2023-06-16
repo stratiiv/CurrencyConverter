@@ -2,6 +2,12 @@
 
 This project is a currency converter REST API that allows users to convert between different currencies.
 
+## Technologies Used
+
+- Python
+- Django
+- Django REST Framework
+
 ## Installation
 
 1. Clone the repository.
@@ -14,11 +20,20 @@ pip install pipenv
 ```bash
 pipenv install
 ```
-5. Launch the virtual environment:
+5. Obtain an API token for the OpenWeatherMap API:
+
+   * Go to the OpenWeatherMap website and sign up for an account.
+   * Retrieve your API key.
+
+6. Create a .env file in the project root directory. Add the following line to the file, replacing your_key_here with your actual key:
+```
+OPENWEATHER_KEY=your_key_here
+```
+7. Launch the virtual environment:
 ```bash
 pipenv shell
 ```
-6. Run the application using:
+8. Run the application using:
 ```bash
 python manage.py runserver
 ```
