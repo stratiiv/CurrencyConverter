@@ -9,6 +9,7 @@ django = "*"
 flake8 = "*"
 requests = "*"
 types-requests = "*"
+pytest-django = "*"
 
 [dev-packages]
 
